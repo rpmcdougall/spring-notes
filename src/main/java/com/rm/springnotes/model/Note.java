@@ -2,6 +2,7 @@ package com.rm.springnotes.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -13,9 +14,10 @@ import java.util.Date;
 @Entity
 @Table(name="notes")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt",},
+@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
     allowGetters= true)
 public class Note implements Serializable {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
