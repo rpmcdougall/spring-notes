@@ -5,6 +5,7 @@ import com.rm.springnotes.model.Note;
 import com.rm.springnotes.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -14,11 +15,15 @@ import java.util.List;
 public class NoteController {
 
     @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    @Autowired
     NoteRepository noteRepository;
 
     // Get All Notes
     @GetMapping("/notes")
     public List<Note> getAllNotes(){
+        sendMessage("Sending stuff to kafka!!!!!!");
         return noteRepository.findAll();
     }
 
@@ -55,5 +60,9 @@ public class NoteController {
         noteRepository.delete(note);
 
         return ResponseEntity.ok().build();
+    }
+
+    public void sendMessage(String msg) {
+        kafkaTemplate.send( "test",  msg);
     }
 }
